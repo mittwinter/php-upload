@@ -13,6 +13,21 @@ class Uploader {
 		$this->config = $config;
 	}
 
+	public function processPHPFilesArray() {
+		$processedUploads = array();
+		for( $i = 0; $i < count( $_FILES[ 'files' ][ 'name' ] ); $i++ ) {
+			$upload = new Upload( $_FILES[ 'files' ][ 'name' ][ $i ]
+			                    , $_FILES[ 'files' ][ 'size' ][ $i ]
+			                    , $_FILES[ 'files' ][ 'type' ][ $i ]
+			                    , $_FILES[ 'files' ][ 'tmp_name' ][ $i ]
+			                    , $_FILES[ 'files' ][ 'error'][ $i ]
+			                    );
+			$this->process( $upload );
+			$processedUploads[] = $upload;
+		}
+		return $processedUploads;
+	}
+
 	public function process( $upload ) {
 		if( $upload->getErrorCode() == UPLOAD_ERR_OK ) {
 			// Generate "encrypted" path for upload:
