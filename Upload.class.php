@@ -29,6 +29,7 @@ class Upload {
 		$this->mimeType = $mimeType;
 		$this->tempName = $tempName;
 		$this->errorCode = $errorCode;
+		$this->successfullyProcessed = false;
 	}
 
 	public function getName() { return $this->name; }
@@ -44,7 +45,8 @@ class Upload {
 
 	public function store( $path ) {
 		if( $this->errorCode == UPLOAD_ERR_OK ) {
-			return move_uploaded_file( $this->tempName, $path . '/' . $this->name );
+			$this->successfullyProcessed = move_uploaded_file( $this->tempName, $path . '/' . $this->name );
+			return $this->successfullyProcessed;
 		}
 		else {
 			throw new Exception( 'Called store() on a failed upload!' );
