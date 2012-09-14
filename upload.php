@@ -6,6 +6,11 @@
  ***/
 
 // ***
+// *** Localization
+// ***
+require_once( './locale.inc.php' );
+
+// ***
 // *** Class definitions
 // ***
 require_once( './Config.class.php' );
@@ -49,7 +54,7 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 				// Create and append file input field label:
 				labelElement = document.createElement( 'label' );
 				labelElement.setAttribute( 'for', 'files[]' );
-				labelElementText = document.createTextNode( 'Upload file: ' );
+				labelElementText = document.createTextNode( '<?php echo( _('Upload file') . ': ' ); ?>' );
 				labelElement.appendChild( labelElementText );
 				document.getElementById( 'file-upload' ).appendChild( labelElement );
 				// Create and append file input field:
@@ -71,67 +76,67 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 		</script>
 	</head>
 	<body>
-		<h2>Upload files:</h2>
+		<h2><?php echo( _('Upload files') . ':' ); ?></h2>
 		<?php
 		// ***
 		// *** Process uploads:
 		// ***
 		if( !empty( $_FILES ) ) {
 			$uploads = $uploader->processPHPFilesArray();
-			echo( '<p><strong>Uploaded files:</strong></p>' );
+			echo( '<p><strong>' . _('Uploaded files') . ':</strong></p>' );
 			echo( '<ul>' );
 			foreach( $uploads as $upload ) {
 				echo( '<li>' );
 				echo( '<strong>' . htmlspecialchars( $upload->getName() ) . ':</strong> ' );
 				if( $upload->isSuccessfullyProcessed() ) {
-					echo( 'Upload successful. ' );
-					echo( 'Download available at <a href="' . htmlspecialchars( $upload->getDownloadLink() ) . '" title="Download link for ' . htmlspecialchars( $upload->getName() ) . '">' . htmlspecialchars( $upload->getDownloadLink() ) . '</a>');
+					echo( _('Upload successful') . '.' );
+					echo( sprintf( _('Download available at %s'), '<a href="' . htmlspecialchars( $upload->getDownloadLink() ) . '" title="' . sprintf( _('Download link for %s'), htmlspecialchars( $upload->getName() ) ) . '">' . htmlspecialchars( $upload->getDownloadLink() ) . '</a>' ) );
  					if( $config->get( 'fileExpiration' ) != 0 ) {
-						echo( ' for ' . htmlspecialchars( secondsToReadable( $config->get( 'fileExpiration' ) ) ) );
+						echo( ' ' . _('for' ) . ' ' . htmlspecialchars( secondsToReadable( $config->get( 'fileExpiration' ) ) ) );
 					}
 					echo( '.' );
 				}
 				else {
-					echo( 'Upload failed.' );
+					echo( _('Upload failed') . '.' );
 				}
 				echo( '</li>');
 			}
 			echo( '</ul>' );
-			echo( '<p><em>Errors:</em></p>' );
+			echo( '<p><em>' . _('Errors') . ':</em></p>' );
 			echo( '<ul>' );
 			echo( '<li>' . implode( '</li><li>', array_map( 'htmlspecialchars', $uploader->getErrors() ) ) . '</li>' );
 			echo( '</ul>' );
 			$uploader->clearErrors();
 		}
 		?>
-		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
+		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( $_SERVER[ 'PHP_SELF' ] . '?' . $_SERVER[ 'QUERY_STRING' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo( $maxFileSize ); ?>" />
-			<p><strong>Limits:</strong></p>
+			<p><strong><?php echo( _('Limits') . ':' ); ?></strong></p>
 			<ul>
-				<li>Maximum filesize: <?php echo( sizeToReadable( $maxFileSize ) ); ?></li>
-				<li>Maximum number of files to be uploaded: <?php echo( $maxNumFiles ); ?></li>
-				<li>Maximum total filesize: <?php echo( sizeToReadable( $maxTotalFileSize ) ) ?></li>
-				<li>Available space: <?php echo( sizeToReadable( $uploader->getFreeSpace() ) ); ?> of <?php echo( sizeToReadable( $uploader->getTotalSpace() ) ); ?>
+				<li><?php echo( _('Maximum filesize') . ': ' . sizeToReadable( $maxFileSize ) ); ?></li>
+				<li><?php echo( _('Maximum number of files to be uploaded') . ': ' . $maxNumFiles ); ?></li>
+				<li><?php echo( _('Maximum total filesize') . ': ' . sizeToReadable( $maxTotalFileSize ) ); ?></li>
+				<li><?php echo( _('Available space') . ': ' . sizeToReadable( $uploader->getFreeSpace() ) . ' ' . _('of') . ' ' . sizeToReadable( $uploader->getTotalSpace() ) ); ?></li>
 			</ul>
-			<label for="files[]">Upload file: </label>
+			<label for="files[]"><?php echo( _('Upload file') . ': ' ); ?></label>
 			<input name="files[]" type="file" multiple="multiple" />
-			<a href="javascript: appendFileUploadField();" id="file-upload-more">more</a>
-			<img src="./activity.gif" id="activity-indicator" alt="Upload in progress..." title="Upload in progress..." style="visibility: hidden;" />
-			<input type="submit" name="upload" value="upload" />
+			<a href="javascript: appendFileUploadField();" id="file-upload-more"><?php echo( _('more') ); ?></a>
+			<img src="./activity.gif" id="activity-indicator" alt="<?php echo( _('Upload in progress') . '...' ); ?>" title="<?php echo( _('Upload in progress') . '...' ); ?>" style="visibility: hidden;" />
+			<input type="submit" name="upload" value="<?php echo( _('upload') ); ?>" />
 		</form>
-		<h2>Uploaded files:</h2>
+		<h2><?php echo( _('Uploaded files') . ':' ); ?></h2>
 		<ul>
 			<?php
 			if( count( $uploader->getStoredFiles() ) == 0 ) {
-				echo( '<li>None.</li>' );
+				echo( '<li>' . _('None') . '.</li>' );
 			}
 			else {
 				foreach( $uploader->getStoredFiles() as $file ) {
 					echo( '<li>' );
 					echo( '<strong>' . htmlspecialchars( $file[ 'name' ] ) . '</strong>, ' . sizeToReadable( $file[ 'size' ] ) );
-					echo( ', <a href="' . htmlspecialchars( $file[ 'link' ] ) . '" title="Download ' . htmlspecialchars( $file[ 'name' ] ) . '">'. htmlspecialchars( $file[ 'link' ] ) .'</a>' );
+					echo( ', <a href="' . htmlspecialchars( $file[ 'link' ] ) . '" title="' . sprintf( _('Download %s'), htmlspecialchars( $file[ 'name' ] ) ) . '">'. htmlspecialchars( $file[ 'link' ] ) .'</a>' );
 					if( $config->get( 'fileExpiration' ) != 0 ) {
-						echo( ' valid for ' . secondsToReadable( $config->get( 'fileExpiration' ) - (time() - $file[ 'modificationTime' ]) ) );
+						echo( ' ' . _('valid for') . ' ' . secondsToReadable( $config->get( 'fileExpiration' ) - (time() - $file[ 'modificationTime' ]) ) );
 					}
 					echo( '</li>' );
 				}

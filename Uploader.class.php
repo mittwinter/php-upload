@@ -1,4 +1,6 @@
 <?php
+require_once( './locale.inc.php' );
+
 /*** Released under the terms of "THE BEER-WARE LICENSE" (Revision 42):
  *** Martin Wegner < dev -at- mittwinter -dot- de > wrote this file. As long as you
  *** retain this notice you can do whatever you want with this stuff. If we meet some
@@ -35,7 +37,7 @@ class Uploader {
 			$storePath = $this->config->get( 'fileStoragePath' ) . $encryptedUploadDir;
 			// Create "encrypted" path:
 			if( ! mkdir( $storePath) ) {
-				$this->errors[] = 'mkdir() of ' . $storePath . ' failed for ' . $upload->getName() . '.';
+				$this->errors[] = sprintf( _('mkdir() of %s failed for %s.'), $storePath, $upload->getName() );
 				return false;
 			}
 			// chmod() "encrypted" path:
@@ -45,14 +47,14 @@ class Uploader {
 			}
 			// Check for enough free space:
 			if( $upload->getSize() > $this->getFreeSpace() ) {
-				$this->errors[] = 'Free space exceeded while storing ' . $upload->getName() . '!';
+				$this->errors[] = sprintf( _('Free space exceeded while storing %s!'), $upload->getName() );
 				return false;
 			}
 			// Store upload in "encrypted" path:
 			if( ! $upload->store( $storePath ) ) {
-				$this->errors[] = 'Failed to store ' . $upload->getName() . ' in ' . $storePath . '.';
+				$this->errors[] = sprintf( _('Failed to store %s in %s.'), $upload->getName(), $storePath);
 				if( ! rmdir( $storePath ) ) {
-					$this->errors[] = 'Failed to remove ' . $storePath . ' while cleaning up.';
+					$this->errors[] = sprintf( _('Failed to remove %s while cleaning up.'), $storePath);
 				}
 				return false;
 			}

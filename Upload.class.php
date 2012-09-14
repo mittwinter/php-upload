@@ -1,4 +1,6 @@
 <?php
+require_once( './locale.inc.php' );
+
 /*** Released under the terms of "THE BEER-WARE LICENSE" (Revision 42):
  *** Martin Wegner < dev -at- mittwinter -dot- de > wrote this file. As long as you
  *** retain this notice you can do whatever you want with this stuff. If we meet some
@@ -13,15 +15,7 @@ class Upload {
 	protected $downloadLink;
 	protected $successfullyProcessed;
 
-	protected $uploadErrors = array( UPLOAD_ERR_OK          => "No errors."
-	                               , UPLOAD_ERR_INI_SIZE    => "Larger than upload_max_filesize."
-	                               , UPLOAD_ERR_FORM_SIZE   => "Larger than form MAX_FILE_SIZE."
-	                               , UPLOAD_ERR_PARTIAL     => "Partial upload."
-	                               , UPLOAD_ERR_NO_FILE     => "No file."
-	                               , UPLOAD_ERR_NO_TMP_DIR  => "No temporary directory."
-	                               , UPLOAD_ERR_CANT_WRITE  => "Can't write to disk."
-	                               , UPLOAD_ERR_EXTENSION   => "File upload stopped by extension."
-	                               );
+	protected $uploadErrors = array();
 
 	public function __construct( $name, $size, $mimeType, $tempName, $errorCode ) {
 		$this->name = $name;
@@ -30,6 +24,16 @@ class Upload {
 		$this->tempName = $tempName;
 		$this->errorCode = $errorCode;
 		$this->successfullyProcessed = false;
+
+		$uploadErrors = array( UPLOAD_ERR_OK          => _('No errors.')
+		                     , UPLOAD_ERR_INI_SIZE    => _('Larger than upload_max_filesize.')
+		                     , UPLOAD_ERR_FORM_SIZE   => _('Larger than form MAX_FILE_SIZE.')
+		                     , UPLOAD_ERR_PARTIAL     => _('Partial upload.')
+		                     , UPLOAD_ERR_NO_FILE     => _('No file.')
+		                     , UPLOAD_ERR_NO_TMP_DIR  => _('No temporary directory.')
+		                     , UPLOAD_ERR_CANT_WRITE  => _('Can\'t write to disk.')
+		                     , UPLOAD_ERR_EXTENSION   => _('File upload stopped by extension.')
+		                     );
 	}
 
 	public function getName() { return $this->name; }
