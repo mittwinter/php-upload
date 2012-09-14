@@ -114,7 +114,7 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 			<p><strong><?php echo( _('Limits') . ':' ); ?></strong></p>
 			<ul>
 				<li><?php echo( _('Maximum filesize') . ': ' . sizeToReadable( $maxFileSize ) ); ?></li>
-				<li><?php echo( _('Maximum number of files to be uploaded') . ': ' . $maxNumFiles ); ?></li>
+				<li><?php echo( _('Maximum number of files to be uploaded simultaneously') . ': ' . $maxNumFiles ); ?></li>
 				<li><?php echo( _('Maximum total filesize') . ': ' . sizeToReadable( $maxTotalFileSize ) ); ?></li>
 				<li><?php echo( _('Available space') . ': ' . sizeToReadable( $uploader->getFreeSpace() ) . ' ' . _('of') . ' ' . sizeToReadable( $uploader->getTotalSpace() ) ); ?></li>
 			</ul>
