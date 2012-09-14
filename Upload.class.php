@@ -11,6 +11,7 @@ class Upload {
 	protected $tempName;
 	protected $errorCode;
 	protected $downloadLink;
+	protected $successfullyProcessed;
 
 	protected $uploadErrors = array( UPLOAD_ERR_OK          => "No errors."
 	                               , UPLOAD_ERR_INI_SIZE    => "Larger than upload_max_filesize."
@@ -38,6 +39,8 @@ class Upload {
 	public function getErrorString() { return $this->uploadErrors[ $this->errorCode ]; }
 	public function getDownloadLink() { return $this->downloadLink; }
 	public function setDownloadLink( $link ) { $this->downloadLink = $link; }
+	public function isSuccessfullyProcessed() { return $this->successfullyProcessed; }
+	public function setSuccessfullyProcessed( $successfullyProcessed ) { $this->successfullyProcessed = $successfullyProcessed; }
 
 	public function store( $path ) {
 		if( $this->errorCode == UPLOAD_ERR_OK ) {
