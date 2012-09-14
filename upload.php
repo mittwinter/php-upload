@@ -77,17 +77,13 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 		// *** Process uploads:
 		// ***
 		if( !empty( $_FILES ) ) {
+			$uploads = $uploader->processPHPFilesArray();
+			echo( '<p><strong>Uploaded files:</strong></p>' );
 			echo( '<ul>' );
-			for( $i = 0; $i < count( $_FILES[ 'files' ][ 'name' ] ); $i++ ) {
-				$upload = new Upload( $_FILES[ 'files' ][ 'name' ][ $i ]
-				                    , $_FILES[ 'files' ][ 'size' ][ $i ]
-				                    , $_FILES[ 'files' ][ 'type' ][ $i ]
-				                    , $_FILES[ 'files' ][ 'tmp_name' ][ $i ]
-				                    , $_FILES[ 'files' ][ 'error'][ $i ]
-				                    );
+			foreach( $uploads as $upload ) {
 				echo( '<li>' );
 				echo( '<strong>' . htmlspecialchars( $upload->getName() ) . ':</strong> ' );
-				if( $uploader->process( $upload ) ) {
+				if( $upload->isSuccessfullyProcessed() ) {
 					echo( 'Upload successful. ' );
 					echo( 'Download available at <a href="' . htmlspecialchars( $upload->getDownloadLink() ) . '" title="Download link for ' . htmlspecialchars( $upload->getName() ) . '">' . htmlspecialchars( $upload->getDownloadLink() ) . '</a>');
  					if( $config->get( 'fileExpiration' ) != 0 ) {
@@ -96,12 +92,16 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 					echo( '.' );
 				}
 				else {
-					echo( 'Upload failed: ' . htmlspecialchars( implode( ' ', $uploader->getErrors() ) ) );
+					echo( 'Upload failed.' );
 				}
 				echo( '</li>');
-				$uploader->clearErrors();
 			}
 			echo( '</ul>' );
+			echo( '<p><em>Errors:</em></p>' );
+			echo( '<ul>' );
+			echo( '<li>' . implode( '</li><li>', array_map( 'htmlspecialchars', $uploader->getErrors() ) ) . '</li>' );
+			echo( '</ul>' );
+			$uploader->clearErrors();
 		}
 		?>
 		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
