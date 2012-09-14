@@ -12,7 +12,7 @@ class Config {
 		$this->config[ 'fileStorageDirMode' ] = 0775; // octal mode for directories created within fileStoragePath
 		$this->config[ 'fileStorageQuota' ] = 512 * 1024 * 1024; // in bytes, set to 0 to disable
 		$this->config[ 'fileExpiration' ] = 30 * 24 * 60 * 60; // in seconds, set to 0 to disable
-		$this->config[ 'baseURL' ] = 'https://ssl.tyr.mroot.org/upload/files/'; // must end with '/'
+		$this->config[ 'baseURL' ] = 'https://example.org/upload/files/'; // must end with '/'
 	}
 
 	public function set( $key, $value ) {
