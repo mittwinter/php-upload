@@ -42,7 +42,7 @@ class Uploader {
 			}
 			// chmod() "encrypted" path:
 			if( ! chmod( $storePath, $this->config->get( 'fileStorageDirMode' ) ) ) {
-				$this->errors[] = 'chmod() to ' . $this->config->get( 'fileStorageDirMode' ) . ' of ' . $storePath . ' failed for ' . $upload->getName() . '.';
+				$this->errors[] = sprintf( _('chmod() to %s of %s failed for %s.'), $this->config->get( 'fileStorageDirMode' ), $storePath, $upload->getName() );
 				return false;
 			}
 			// Check for enough free space:
