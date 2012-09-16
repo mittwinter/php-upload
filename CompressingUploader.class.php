@@ -53,17 +53,17 @@ class CompressingUploader extends UploaderBase implements UploaderInterface {
 		// Create "encrypted" path:
 		if( ! mkdir( $storePath) ) {
 			$this->errors[] = sprintf( _('mkdir() of %s failed.'), $storePath );
-			return false;
+			return array();
 		}
 		// chmod() "encrypted" path:
 		if( ! chmod( $storePath, $this->config->get( 'fileStorageDirMode' ) ) ) {
 			$this->errors[] = sprintf( _('chmod() to %s of %s failed.'), $this->config->get( 'fileStorageDirMode' ), $storePath );
-			return false;
+			return array();
 		}
 		// Check for enough free space:
 		if( filesize( $tmpArchiveFilename ) > $this->getFreeSpace() ) {
 			$this->errors[] = sprintf( _('Free space exceeded while storing %s!'), $tmpArchiveFilename );
-			return false;
+			return array();
 		}
 		// Store upload in "encrypted" path:
 		if( ! rename( $tmpArchiveFilename, $storePath . '/' . $uploadFileName ) ) {
