@@ -56,7 +56,7 @@ class CompressingUploader extends UploaderBase implements UploaderInterface {
 			return array();
 		}
 		// chmod() "encrypted" path:
-		if( ! is_null( $this->config->get( 'fileStorageDirMode' ) ) && ! chmod( $storePath, $this->config->get( 'fileStorageDirMode' ) ) ) {
+		if( $this->config->get( 'fileStorageDirMode' ) != 0 && ! chmod( $storePath, $this->config->get( 'fileStorageDirMode' ) ) ) {
 			$this->errors[] = sprintf( _('chmod() to %s of %s failed.'), $this->config->get( 'fileStorageDirMode' ), $storePath );
 			return array();
 		}

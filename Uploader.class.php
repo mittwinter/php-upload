@@ -40,7 +40,7 @@ class Uploader extends UploaderBase implements UploaderInterface {
 				return false;
 			}
 			// chmod() "encrypted" path:
-			if( ! is_null( $this->config->get( 'fileStorageDirMode' ) ) && ! chmod( $storePath, $this->config->get( 'fileStorageDirMode' ) ) ) {
+			if( $this->config->get( 'fileStorageDirMode' ) != 0 && ! chmod( $storePath, $this->config->get( 'fileStorageDirMode' ) ) ) {
 				$this->errors[] = sprintf( _('chmod() to %s of %s failed for %s.'), $this->config->get( 'fileStorageDirMode' ), $storePath, $upload->getName() );
 				return false;
 			}

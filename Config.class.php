@@ -9,7 +9,7 @@ class Config {
 
 	public function __construct() {
 		$this->config[ 'fileStoragePath' ] = './files/'; // path where files are stored, absolute or relative to script
-		$this->config[ 'fileStorageDirMode' ] = 0775; // octal mode for directories created within fileStoragePath, set to NULL to disable chmod()
+		$this->config[ 'fileStorageDirMode' ] = 0775; // octal mode for directories created within fileStoragePath, set to 0 to disable chmod()
 		$this->config[ 'fileStorageQuota' ] = 512 * 1024 * 1024; // in bytes, set to 0 to disable
 		$this->config[ 'fileExpiration' ] = 30 * 24 * 60 * 60; // in seconds, set to 0 to disable
 		$this->config[ 'baseURL' ] = 'https://example.org/upload/files/'; // must end with '/'
