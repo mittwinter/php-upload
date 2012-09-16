@@ -17,6 +17,7 @@ require_once( './Config.class.php' );
 require_once( './PHPIniReader.class.php' );
 require_once( './Upload.class.php' );
 require_once( './Uploader.class.php' );
+require_once( './CompressingUploader.class.php' );
 
 // ***
 // *** Global function definitions
@@ -28,6 +29,7 @@ require_once( './functions.inc.php' );
 // ***
 $config = new Config();
 $uploader = new Uploader( $config );
+//$uploader = new CompressingUploader( $config );
 $uploader->purgeFileStorage();
 $maxFileSize = PHPIniReader::parseSizeToBytes( PHPIniReader::get( 'upload_max_filesize' ) );
 $maxTotalFileSize = PHPIniReader::parseSizeToBytes( PHPIniReader::get( 'post_max_size' ) );
@@ -89,7 +91,7 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 				echo( '<li>' );
 				echo( '<strong>' . htmlspecialchars( $upload->getName() ) . ':</strong> ' );
 				if( $upload->isSuccessfullyProcessed() ) {
-					echo( _('Upload successful') . '.' );
+					echo( _('Upload successful') . '. ' );
 					echo( sprintf( _('Download available at %s'), '<a href="' . htmlspecialchars( $upload->getDownloadLink() ) . '" title="' . sprintf( _('Download link for %s'), htmlspecialchars( $upload->getName() ) ) . '">' . htmlspecialchars( $upload->getDownloadLink() ) . '</a>' ) );
  					if( $config->get( 'fileExpiration' ) != 0 ) {
 						echo( ' ' . _('for' ) . ' ' . htmlspecialchars( secondsToReadable( $config->get( 'fileExpiration' ) ) ) );
@@ -102,11 +104,13 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 				echo( '</li>');
 			}
 			echo( '</ul>' );
-			echo( '<p><em>' . _('Errors') . ':</em></p>' );
-			echo( '<ul>' );
-			echo( '<li>' . implode( '</li><li>', array_map( 'htmlspecialchars', $uploader->getErrors() ) ) . '</li>' );
-			echo( '</ul>' );
-			$uploader->clearErrors();
+			if( count( $uploader->getErrors() ) > 0 ) {
+				echo( '<p><em>' . _('Errors') . ':</em></p>' );
+				echo( '<ul>' );
+				echo( '<li>' . implode( '</li><li>', array_map( 'htmlspecialchars', $uploader->getErrors() ) ) . '</li>' );
+				echo( '</ul>' );
+				$uploader->clearErrors();
+			}
 		}
 		?>
 		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( $_SERVER[ 'PHP_SELF' ] . '?' . $_SERVER[ 'QUERY_STRING' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
@@ -118,6 +122,11 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 				<li><?php echo( _('Maximum total filesize') . ': ' . sizeToReadable( $maxTotalFileSize ) ); ?></li>
 				<li><?php echo( _('Available space') . ': ' . sizeToReadable( $uploader->getFreeSpace() ) . ' ' . _('of') . ' ' . sizeToReadable( $uploader->getTotalSpace() ) ); ?></li>
 			</ul>
+			<!-- for CompressingUploader: --
+			<label for="uploadName"><?php echo( _('Upload name') . ': ' ); ?></label>
+			<input name="uploadName" type="text" size="20" />
+			<br />
+			!-- End 'for CompressingUploader:' -->
 			<label for="files[]"><?php echo( _('Upload file') . ': ' ); ?></label>
 			<input name="files[]" type="file" multiple="multiple" />
 			<a href="javascript: appendFileUploadField();" id="file-upload-more"><?php echo( _('more') ); ?></a>

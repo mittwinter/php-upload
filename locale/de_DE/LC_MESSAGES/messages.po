@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-14 17:14+0200\n"
+"POT-Creation-Date: 2012-09-16 21:18+0200\n"
 "PO-Revision-Date: 2012-09-14 15:15+0200\n"
 "Last-Translator: Martin Wegner <dev@mittwinter.de>\n"
 "Language-Team: de_DE <dev@mittwinter.de>\n"
@@ -17,25 +17,167 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Uploader.class.php:40
+#: Uploader.class.php:39
 #, php-format
 msgid "mkdir() of %s failed for %s."
 msgstr "mkdir() für Verzeichnis %s bei %s fehlgeschlagen."
 
-#: Uploader.class.php:50
+#: Uploader.class.php:44
+#, php-format
+msgid "chmod() to %s of %s failed for %s."
+msgstr "chmod() mit Mode %s für %s bei %s fehlgeschlagen."
+
+#: Uploader.class.php:49 CompressingUploader.class.php:65
 #, php-format
 msgid "Free space exceeded while storing %s!"
 msgstr "Freier Speicher beim Speichern von %s überschritten!"
 
-#: Uploader.class.php:55
+#: Uploader.class.php:54
 #, php-format
 msgid "Failed to store %s in %s."
 msgstr "Speichern von %s in %s fehlgeschlagen."
 
-#: Uploader.class.php:57
+#: Uploader.class.php:56 CompressingUploader.class.php:72
 #, php-format
 msgid "Failed to remove %s while cleaning up."
 msgstr "Entfernen von %s beim Aufräumen fehlgeschlagen."
+
+#: CompressingUploader.class.php:20
+#, php-format
+msgid "Failed to create temporary filename in %s."
+msgstr "Anlegen eines temporären Dateinamens in %s fehlgeschlagen."
+
+#: CompressingUploader.class.php:25
+#, php-format
+msgid "Failed to create ZIP archive %s."
+msgstr "Erstellen des ZIP-Archivs %s fehlgeschlagen."
+
+#: CompressingUploader.class.php:38
+#, php-format
+msgid "Upload of file %s failed. Aborting complete upload processing."
+msgstr "Upload der Datei %s fehlgeschlagen. Kompletter Upload verworfen."
+
+#: CompressingUploader.class.php:55
+#, php-format
+msgid "mkdir() of %s failed."
+msgstr "mkdir() von %s fehlgeschlagen."
+
+#: CompressingUploader.class.php:60
+#, php-format
+msgid "chmod() to %s of %s failed."
+msgstr "chmod() mit Mode %s für %s fehlgeschlagen."
+
+#: CompressingUploader.class.php:70
+#, php-format
+msgid "Failed to rename() %s to %s."
+msgstr "rename() von %s nach %s fehlgeschlagen."
+
+#: upload.php:59 upload.php:130
+msgid "Upload file"
+msgstr "Datei hochladen"
+
+#: upload.php:81
+msgid "Upload files"
+msgstr "Dateien hochladen"
+
+#: upload.php:88 upload.php:136
+msgid "Uploaded files"
+msgstr "Hochgeladene Dateien"
+
+#: upload.php:94
+msgid "Upload successful"
+msgstr "Upload erfolgreich"
+
+#: upload.php:95
+#, php-format
+msgid "Download available at %s"
+msgstr "Download verfügbar unter %s"
+
+#: upload.php:95
+#, php-format
+msgid "Download link for %s"
+msgstr "Download-Link für %s"
+
+#: upload.php:97
+msgid "for"
+msgstr "für"
+
+#: upload.php:102
+msgid "Upload failed"
+msgstr "Upload fehlgeschlagen"
+
+#: upload.php:108
+msgid "Errors"
+msgstr "Fehler"
+
+#: upload.php:118
+msgid "Limits"
+msgstr "Einschränkungen"
+
+#: upload.php:120
+msgid "Maximum filesize"
+msgstr "Maximale Dateigröße"
+
+#: upload.php:121
+msgid "Maximum number of files to be uploaded simultaneously"
+msgstr "Maximale Anzahl an Dateien, die gleichzeitig hochgeladen werden können"
+
+#: upload.php:122
+msgid "Maximum total filesize"
+msgstr "Maximale Größe insgesamt"
+
+#: upload.php:123
+msgid "Available space"
+msgstr "Verfügbarer Platz"
+
+#: upload.php:123
+msgid "of"
+msgstr "von"
+
+#: upload.php:126
+msgid "Upload name"
+msgstr "Upload-Name"
+
+#: upload.php:132
+msgid "more"
+msgstr "mehr"
+
+#: upload.php:133
+msgid "Upload in progress"
+msgstr "Upload wird durchgeführt"
+
+#: upload.php:134
+msgid "upload"
+msgstr "hochladen"
+
+#: upload.php:140
+msgid "None"
+msgstr "Keine"
+
+#: upload.php:146
+#, php-format
+msgid "Download %s"
+msgstr "%s herunterladen"
+
+#: upload.php:148
+msgid "valid for"
+msgstr "gültig für"
+
+#: functions.inc.php:28
+msgid "days"
+msgstr "Tage"
+
+#: functions.inc.php:31
+msgid "hours"
+msgstr "Stunden"
+
+#: functions.inc.php:35
+msgid "minutes"
+msgstr "Minuten"
+
+#: functions.inc.php:39
+msgid "seconds"
+msgstr "Sekunden"
 
 #: Upload.class.php:28
 #, fuzzy
@@ -70,90 +212,3 @@ msgstr "Schreiben auf Festplatte fehlgeschlagen."
 #: Upload.class.php:35
 msgid "File upload stopped by extension."
 msgstr "Upload durch Dateinamen-Erweiturung abgebrochen"
-
-#: upload.php:57 upload.php:121
-msgid "Upload file"
-msgstr "Datei hochladen"
-
-#: upload.php:79
-msgid "Upload files"
-msgstr "Dateien hochladen"
-
-#: upload.php:86 upload.php:127
-msgid "Uploaded files"
-msgstr "Hochgeladene Dateien"
-
-#: upload.php:92
-msgid "Upload successful"
-msgstr "Upload erfolgreich"
-
-#: upload.php:93
-#, php-format
-msgid "Download available at %s"
-msgstr "Download verfügbar unter %s"
-
-#: upload.php:93
-#, php-format
-msgid "Download link for %s"
-msgstr "Download-Link für %s"
-
-#: upload.php:95
-msgid "for"
-msgstr "für"
-
-#: upload.php:100
-msgid "Upload failed"
-msgstr "Upload fehlgeschlagen"
-
-#: upload.php:105
-msgid "Errors"
-msgstr "Fehler"
-
-#: upload.php:114
-msgid "Limits"
-msgstr "Einschränkungen"
-
-#: upload.php:116
-msgid "Maximum filesize"
-msgstr "Maximale Dateigröße"
-
-#: upload.php:117
-msgid "Maximum number of files to be uploaded simultaneously"
-msgstr "Maximale Anzahl an Dateien, die gleichzeitig hochgeladen werden können"
-
-#: upload.php:118
-msgid "Maximum total filesize"
-msgstr "Maximale Größe insgesamt"
-
-#: upload.php:119
-msgid "Available space"
-msgstr "Verfügbarer Platz"
-
-#: upload.php:119
-msgid "of"
-msgstr "von"
-
-#: upload.php:123
-msgid "more"
-msgstr "mehr"
-
-#: upload.php:124
-msgid "Upload in progress"
-msgstr "Upload wird durchgeführt"
-
-#: upload.php:125
-msgid "upload"
-msgstr "hochladen"
-
-#: upload.php:131
-msgid "None"
-msgstr "Keine"
-
-#: upload.php:137
-#, php-format
-msgid "Download %s"
-msgstr "%s herunterladen"
-
-#: upload.php:139
-msgid "valid for"
-msgstr "gültig für"
