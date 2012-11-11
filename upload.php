@@ -30,7 +30,6 @@ require_once( './functions.inc.php' );
 $config = new Config();
 $uploaderImplementation = $config->get( 'uploader' );
 $uploader = new $uploaderImplementation( $config );
-//$uploader = new CompressingUploader( $config );
 $uploader->purgeFileStorage();
 $maxFileSize = PHPIniReader::parseSizeToBytes( PHPIniReader::get( 'upload_max_filesize' ) );
 $maxTotalFileSize = PHPIniReader::parseSizeToBytes( PHPIniReader::get( 'post_max_size' ) );
