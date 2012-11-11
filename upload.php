@@ -105,13 +105,13 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 				echo( '</li>');
 			}
 			echo( '</ul>' );
-			if( count( $uploader->getErrors() ) > 0 ) {
-				echo( '<p><em>' . _('Errors') . ':</em></p>' );
-				echo( '<ul>' );
-				echo( '<li>' . implode( '</li><li>', array_map( 'htmlspecialchars', $uploader->getErrors() ) ) . '</li>' );
-				echo( '</ul>' );
-				$uploader->clearErrors();
-			}
+		}
+		if( count( $uploader->getErrors() ) > 0 ) {
+			echo( '<p><em>' . _('Errors') . ':</em></p>' );
+			echo( '<ul>' );
+			echo( '<li>' . implode( '</li><li>', array_map( 'htmlspecialchars', $uploader->getErrors() ) ) . '</li>' );
+			echo( '</ul>' );
+			$uploader->clearErrors();
 		}
 		?>
 		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( '?' . $_SERVER[ 'QUERY_STRING' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
