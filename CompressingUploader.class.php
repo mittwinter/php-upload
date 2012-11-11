@@ -66,12 +66,14 @@ class CompressingUploader extends UploaderBase implements UploaderInterface {
 			return array();
 		}
 		// Store upload in "encrypted" path:
-		if( ! rename( $tmpArchiveFilename, $storePath . '/' . $uploadFileName ) ) {
-			$this->errors[] = sprintf( _('Failed to rename() %s to %s.'), $tmpArchiveFilename, $storePath . '/' . $uploadFileName );
-			if( ! rmdir( $storePath ) ) {
-				$this->errors[] = sprintf( _('Failed to remove %s while cleaning up.'), $storePath );
-			}
-			return array();
+		if( ! @rename( $tmpArchiveFilename, $storePath . '/' . $uploadFileName ) ) {
+			if( ! @copy( $tmpArchiveFilename, $storePath . '/' . $uploadFileName ) ) {
+				$this->errors[] = sprintf( _('Failed to rename() or (as fallback) copy() %s to %s.'), $tmpArchiveFilename, $storePath . '/' . $uploadFileName );
+				if( ! rmdir( $storePath ) ) {
+					$this->errors[] = sprintf( _('Failed to remove %s while cleaning up.'), $storePath );
+				}
+				return array();
+			 }
 		}
 		// Set download link of upload:
 		$zipUpload = new Upload( $uploadFileName
