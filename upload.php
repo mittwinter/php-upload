@@ -28,7 +28,8 @@ require_once( './functions.inc.php' );
 // *** "Globally" available instances and convenience variables:
 // ***
 $config = new Config();
-$uploader = new Uploader( $config );
+$uploaderImplementation = $config->get( 'uploader' );
+$uploader = new $uploaderImplementation( $config );
 //$uploader = new CompressingUploader( $config );
 $uploader->purgeFileStorage();
 $maxFileSize = PHPIniReader::parseSizeToBytes( PHPIniReader::get( 'upload_max_filesize' ) );
@@ -122,11 +123,11 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 				<li><?php echo( _('Maximum total filesize') . ': ' . sizeToReadable( $maxTotalFileSize ) ); ?></li>
 				<li><?php echo( _('Available space') . ': ' . sizeToReadable( $uploader->getFreeSpace() ) . ' ' . _('of') . ' ' . sizeToReadable( $uploader->getTotalSpace() ) ); ?></li>
 			</ul>
-			<!-- for CompressingUploader: --
+			<?php if( $config->get( 'uploader' ) == 'CompressingUploader' ): ?>
 			<label for="uploadName"><?php echo( _('Upload name') . ': ' ); ?></label>
 			<input name="uploadName" type="text" size="20" />
 			<br />
-			!-- End 'for CompressingUploader:' -->
+			<?php endif; ?>
 			<label for="files[]"><?php echo( _('Upload file') . ': ' ); ?></label>
 			<input name="files[]" type="file" multiple="multiple" />
 			<a href="javascript: appendFileUploadField();" id="file-upload-more"><?php echo( _('more') ); ?></a>

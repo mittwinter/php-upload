@@ -13,6 +13,8 @@ class Config {
 		$this->config[ 'fileStorageQuota' ] = 512 * 1024 * 1024; // in bytes, set to 0 to disable
 		$this->config[ 'fileExpiration' ] = 30 * 24 * 60 * 60; // in seconds, set to 0 to disable
 		$this->config[ 'baseURL' ] = 'https://example.org/upload/files/'; // must end with '/'
+		$this->config[ 'uploader' ] = 'Uploader'; // Uploader implementation to be used,
+		                                          // can be Uploader or CompressingUploader for now
 	}
 
 	public function set( $key, $value ) {
