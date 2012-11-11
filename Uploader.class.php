@@ -35,7 +35,7 @@ class Uploader extends UploaderBase implements UploaderInterface {
 			$encryptedUploadDir = $this->encryptFilename( $upload->getName() );
 			$storePath = $this->config->get( 'fileStoragePath' ) . $encryptedUploadDir;
 			// Create "encrypted" path:
-			if( ! mkdir( $storePath) ) {
+			if( ! @mkdir( $storePath) ) {
 				$this->errors[] = sprintf( _('mkdir() of %s failed for %s.'), $storePath, $upload->getName() );
 				return false;
 			}

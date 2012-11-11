@@ -51,7 +51,7 @@ class CompressingUploader extends UploaderBase implements UploaderInterface {
 		$storePath = $this->config->get( 'fileStoragePath' ) . '/' . $encryptedUploadDir;
 		$uploadFileName = $uploadName . '.zip';
 		// Create "encrypted" path:
-		if( ! mkdir( $storePath) ) {
+		if( ! @mkdir( $storePath) ) {
 			$this->errors[] = sprintf( _('mkdir() of %s failed.'), $storePath );
 			return array();
 		}
