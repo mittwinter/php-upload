@@ -114,7 +114,7 @@ $maxNumFiles = PHPIniReader::get( 'max_file_uploads' );
 			}
 		}
 		?>
-		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( $_SERVER[ 'PHP_SELF' ] . '?' . $_SERVER[ 'QUERY_STRING' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
+		<form id="file-upload" enctype="multipart/form-data" action="<?php echo( htmlspecialchars( '?' . $_SERVER[ 'QUERY_STRING' ] ) ); ?>" method="post" onSubmit="javascript: showActivityIndicator();">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo( $maxFileSize ); ?>" />
 			<p><strong><?php echo( _('Limits') . ':' ); ?></strong></p>
 			<ul>
