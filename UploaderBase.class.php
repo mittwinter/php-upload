@@ -12,6 +12,7 @@ class UploaderBase implements JanitorInterface {
 
 	public function __construct( $config ) {
 		$this->config = $config;
+		$this->cacheStoredFiles();
 	}
 
 	public function getErrors() { return $this->errors; }
@@ -25,12 +26,7 @@ class UploaderBase implements JanitorInterface {
 
 	public function getStoredFiles() {
 		if( count( $this->storedFilesCache ) == 0 ) {
-			try {
-				$this->cacheStoredFiles();
-			}
-			catch( Exception $e ) {
-				$this->errors[] = $e->getMessage();
-			}
+			$this->cacheStoredFiles();
 		}
 		return $this->storedFilesCache;
 	}
@@ -42,27 +38,29 @@ class UploaderBase implements JanitorInterface {
 	protected function cacheStoredFiles() {
 		$this->resetStoredFilesCache();
 		$fileStorageHandle = @dir( $this->config->get( 'fileStoragePath' ) );
-		if( $fileStorageHandle === false ) {
-			throw new Exception( 'Unable to open directory "' . $this->config->get( 'fileStoragePath' ) . '" for listing.' );
-		}
-		while( ($e = $fileStorageHandle->read()) !== false ) {
-			if( $e != '.' && $e != '..' && is_dir( $this->config->get( 'fileStoragePath' ) . '/' . $e ) ) {
-				$fileUploadDir = $this->config->get( 'fileStoragePath' ) . '/' . $e;
-				$fileUploadDirHandle = dir( $fileUploadDir );
-				while( ($f = $fileUploadDirHandle->read()) !== false ) {
-					if( $f != '.' && $f != '..' && is_file( $fileUploadDir . '/' . $f ) ) {
-						$this->storedFilesCache[] = array( 'name' => $f
-						                                 , 'encryptedDir' => $e
-						                                 , 'size' => filesize( $fileUploadDir . '/' . $f )
-						                                 , 'link' => $this->config->get( 'baseURL' ) . $e . '/' . rawurlencode( $f )
-						                                 , 'modificationTime' => filemtime( $fileUploadDir )
-						                                 );
+		if( $fileStorageHandle !== false ) {
+			while( ($e = $fileStorageHandle->read()) !== false ) {
+				if( $e != '.' && $e != '..' && is_dir( $this->config->get( 'fileStoragePath' ) . '/' . $e ) ) {
+					$fileUploadDir = $this->config->get( 'fileStoragePath' ) . '/' . $e;
+					$fileUploadDirHandle = dir( $fileUploadDir );
+					while( ($f = $fileUploadDirHandle->read()) !== false ) {
+						if( $f != '.' && $f != '..' && is_file( $fileUploadDir . '/' . $f ) ) {
+							$this->storedFilesCache[] = array( 'name' => $f
+							                                 , 'encryptedDir' => $e
+							                                 , 'size' => filesize( $fileUploadDir . '/' . $f )
+							                                 , 'link' => $this->config->get( 'baseURL' ) . $e . '/' . rawurlencode( $f )
+							                                 , 'modificationTime' => filemtime( $fileUploadDir )
+							                                 );
+						}
 					}
+					$fileUploadDirHandle->close();
 				}
-				$fileUploadDirHandle->close();
 			}
+			$fileStorageHandle->close();
 		}
-		$fileStorageHandle->close();
+		else {
+			$this->errors[] = 'Unable to open directory "' . $this->config->get( 'fileStoragePath' ) . '" for listing.';
+		}
 	}
 
 	public function getTotalSpace() {
