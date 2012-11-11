@@ -59,7 +59,7 @@ class UploaderBase implements JanitorInterface {
 			$fileStorageHandle->close();
 		}
 		else {
-			$this->errors[] = 'Unable to open directory "' . $this->config->get( 'fileStoragePath' ) . '" for listing.';
+			$this->errors[] = sprintf( _('Unable to open directory "%s" for listing.'), $this->config->get( 'fileStoragePath' ) );
 		}
 	}
 
