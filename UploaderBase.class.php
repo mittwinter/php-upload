@@ -25,7 +25,12 @@ class UploaderBase implements JanitorInterface {
 
 	public function getStoredFiles() {
 		if( count( $this->storedFilesCache ) == 0 ) {
-			$this->cacheStoredFiles();
+			try {
+				$this->cacheStoredFiles();
+			}
+			catch( Exception $e ) {
+				$this->errors[] = $e->getMessage();
+			}
 		}
 		return $this->storedFilesCache;
 	}
@@ -36,7 +41,7 @@ class UploaderBase implements JanitorInterface {
 
 	protected function cacheStoredFiles() {
 		$this->resetStoredFilesCache();
-		$fileStorageHandle = dir( $this->config->get( 'fileStoragePath' ) );
+		$fileStorageHandle = @dir( $this->config->get( 'fileStoragePath' ) );
 		if( $fileStorageHandle === false ) {
 			throw new Exception( 'Unable to open directory "' . $this->config->get( 'fileStoragePath' ) . '" for listing.' );
 		}
